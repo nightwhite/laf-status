@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import { useComponentColor } from '@tuniao/tnui-vue3-uniapp/hooks'
 import { formatDomSizeValue } from '@tuniao/tnui-vue3-uniapp/utils'
 
@@ -26,7 +26,8 @@ const containerClass = computed<string>(() => {
 // 页面容器样式
 const containerStyle = computed<CSSProperties>(() => {
   const style: CSSProperties = {}
-
+  style.height = '100vh' // 高度全屏
+  style.width = '100vw'
   if (props.padding) {
     style.padding = formatDomSizeValue(props.padding)
   }
@@ -34,7 +35,6 @@ const containerStyle = computed<CSSProperties>(() => {
   if (pageBgStyle.value) style.backgroundColor = pageBgStyle.value
 
   if (props.contentFullWidth) {
-    style.width = '100vw'
     style.overflowX = 'hidden'
   }
 
@@ -43,39 +43,6 @@ const containerStyle = computed<CSSProperties>(() => {
   }
 
   return style
-})
-
-// 导航栏返回按钮
-const navBarIcon = {
-  back: {
-    hide: '',
-    show: 'left',
-    only: 'left-arrow',
-  },
-  home: {
-    hide: '',
-    show: 'home-capsule-fill',
-  },
-}
-const backIcon = computed<string>(() => {
-  let icon =
-    navBarIcon.back[
-    props.isH5DemoPage ? 'hide' : props.onlyBack ? 'only' : 'show'
-    ]
-  // #ifdef MP-ALIPAY
-  icon = ''
-  // #endif
-  return icon
-})
-const homeIcon = computed<string>(() => {
-  let icon =
-    navBarIcon.home[props.isH5DemoPage || props.onlyBack ? 'hide' : 'show']
-
-  // #ifdef MP-ALIPAY
-  icon = ''
-  // #endif
-
-  return icon
 })
 </script>
 
